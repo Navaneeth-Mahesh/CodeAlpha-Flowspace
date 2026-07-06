@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------
+   DESIGN TOKENS
+   Palette: "Signal & Slate"
+   - Base: cool charcoal (never pure black) so shadows read as depth, not void.
+   - Primary: signal blue — the color of an active state, a live cursor, a status dot.
+   - Accent: warm brass/gold — used sparingly for favorites, priority, highlights.
+   - Success / Danger / Warning follow the same temperature logic as accent.
+--------------------------------------------------------- */
+@theme {
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --color-bg: #0d0f14;
+  --color-surface: #12151c;
+  --color-surface-soft: #171b24;
+  --color-surface-hover: #1c202b;
+  --color-border: #242938;
+  --color-border-soft: #1b2029;
+
+  --color-text: #f4f5f7;
+  --color-text-secondary: #9aa1ae;
+  --color-text-muted: #626878;
+
+  --color-primary: #5b8def;
+  --color-primary-hover: #729bf2;
+  --color-primary-soft: #1c2b4a;
+
+  --color-accent: #f0b84b;
+  --color-accent-soft: #3a2f16;
+
+  --color-success: #3ecf8e;
+  --color-success-soft: #123324;
+
+  --color-danger: #ff6b6b;
+  --color-danger-soft: #3a1a1a;
+
+  --color-warning: #ff9f43;
+  --color-warning-soft: #3a2712;
+
+  --shadow-color-dark: 0 0 0;
+  --shadow-color-light: 255 255 255;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
+  --color-bg: #f5f6fa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #eef0f5;
+  --color-surface-hover: #e6e9f0;
+  --color-border: #e1e4ec;
+  --color-border-soft: #ebeef4;
+
+  --color-text: #191c22;
+  --color-text-secondary: #5b616e;
+  --color-text-muted: #8a909d;
+
+  --color-primary: #3d6fe0;
+  --color-primary-hover: #2f5ecf;
+  --color-primary-soft: #e3ebfd;
+
+  --color-accent: #c98a1f;
+  --color-accent-soft: #fbedd2;
+
+  --color-success: #1f9d6e;
+  --color-success-soft: #e2f7ee;
+
+  --color-danger: #e0484d;
+  --color-danger-soft: #fbe4e4;
+
+  --color-warning: #e08526;
+  --color-warning-soft: #fceddc;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Focus states — always visible, never suppressed */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ---------------------------------------------------------
+   SIGNATURE SURFACE TREATMENTS
+--------------------------------------------------------- */
+
+/* Soft neumorphic raised surface — used for cards, stat tiles */
+.surface-neu {
+  background: var(--color-surface-soft);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    6px 6px 14px rgba(var(--shadow-color-dark) / 0.35),
+    -4px -4px 12px rgba(var(--shadow-color-light) / 0.02);
+}
+html.light .surface-neu {
+  box-shadow:
+    6px 6px 14px rgba(var(--shadow-color-dark) / 0.06),
+    -6px -6px 14px rgba(var(--shadow-color-light) / 0.9);
+}
+
+/* Inset neumorphic — used for inputs, wells */
+.surface-neu-inset {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow:
+    inset 3px 3px 8px rgba(var(--shadow-color-dark) / 0.4),
+    inset -2px -2px 6px rgba(var(--shadow-color-light) / 0.02);
+}
+html.light .surface-neu-inset {
+  box-shadow:
+    inset 2px 2px 6px rgba(var(--shadow-color-dark) / 0.06),
+    inset -2px -2px 6px rgba(var(--shadow-color-light) / 0.8);
+}
+
+/* Glass overlay — used for modals, command palette, popovers */
+.surface-glass {
+  background: color-mix(in srgb, var(--color-surface) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+}
+
+/* Signature: animated gradient ring that appears on hover — reserved for
+   primary, single-focus surfaces (project cards, hero stat). Not used everywhere. */
+.ring-glow {
+  position: relative;
+  isolation: isolate;
+}
+.ring-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    var(--color-primary),
+    var(--color-accent),
+    var(--color-primary)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  animation: spin-angle 3.5s linear infinite paused;
+}
+.ring-glow:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

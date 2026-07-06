@@ -1,0 +1,17 @@
+export const ROUTES = {
+  landing: "/",
+  login: "/login",
+  register: "/register",
+  forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password",
+  profileSetup: "/onboarding",
+  dashboard: "/app",
+  projects: "/app/projects",
+  project: (id: string) => `/app/projects/${id}`,
+  team: "/app/team",
+  notifications: "/app/notifications",
+  search: "/app/search",
+  settings: "/app/settings",
+  unauthorized: "/unauthorized",
+  notFound: "*",
+} as const;
